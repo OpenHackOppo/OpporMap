@@ -5,6 +5,13 @@ import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.android.core.location.LocationEngine;
@@ -15,6 +22,7 @@ import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
@@ -24,12 +32,16 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * Use the Mapbox Core Library to receive updates when the device changes location.
@@ -74,6 +86,15 @@ public class MainActivity extends AppCompatActivity implements
                         buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
                         buildingPlugin.setMinZoomLevel(15f);
                         buildingPlugin.setVisibility(true);
+
+                        MarkerViewManager markerViewManager = new MarkerViewManager(mapView, mapboxMap);
+                        //TextView textView = new TextView(getApplicationContext());
+                        View customView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.marker_view_bubble, null);
+                        customView.setLayoutParams(new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                        //textView.setText("Glad nu Malin??");
+                        MarkerView markerView = new MarkerView(new LatLng(59.3413674,18.0618729), customView);
+
+                        markerViewManager.addMarker(markerView);
                     }
                 });
     }
