@@ -31,8 +31,10 @@ public class DefaultOpporApi implements OpporApi {
             HttpURLConnection connection = (HttpURLConnection) new URL(endpoint).openConnection();
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("api-key", API_KEY);
-            connection.connect();
-            InputStreamReader in = new InputStreamReader((InputStream) connection.getContent());
+            //connection.connect();
+            InputStream inputStream = connection.getInputStream();
+
+            InputStreamReader in = new InputStreamReader(inputStream);
             BufferedReader buff = new BufferedReader(in);
             String line = null;
             StringBuilder sb = new StringBuilder();

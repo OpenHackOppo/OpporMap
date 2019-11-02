@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        OpporApi api = new DefaultOpporApi();
+        System.out.println(api.getJobsNearby(59.3338483, 18.0735157, 30));
     }
 }
