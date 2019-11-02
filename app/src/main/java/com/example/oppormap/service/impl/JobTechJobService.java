@@ -58,6 +58,7 @@ public class JobTechJobService implements JobService {
             double lon = posting.getJSONObject("workplace_address").getJSONArray("coordinates").optDouble(1);
             employer.setLatitude(lat);
             employer.setLongitude(lon);
+            employer.setAddress(posting.getJSONObject("workplace_address").optString("street_address"));
             JobPosting jobPosting = new JobPosting();
             jobPosting.setEmployer(employer);
             jobPosting.setDescription(posting.getJSONObject("description").optString("text"));

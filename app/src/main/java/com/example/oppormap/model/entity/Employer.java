@@ -14,6 +14,7 @@ public class Employer implements Serializable {
 
     private String name;
     private String website;
+    private String address;
     private double latitude;
     private double longitude;
 }
