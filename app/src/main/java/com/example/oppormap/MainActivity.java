@@ -23,6 +23,7 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements
     private LocationEngine locationEngine;
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(this);
+    private BuildingPlugin buildingPlugin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +67,13 @@ public class MainActivity extends AppCompatActivity implements
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
 
-        mapboxMap.setStyle(Style.TRAFFIC_NIGHT,
+        mapboxMap.setStyle(Style.MAPBOX_STREETS,
                 new Style.OnStyleLoaded() {
                     @Override public void onStyleLoaded(@NonNull Style style) {
                         enableLocationComponent(style);
+                        buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
+                        buildingPlugin.setMinZoomLevel(15f);
+                        buildingPlugin.setVisibility(true);
                     }
                 });
     }

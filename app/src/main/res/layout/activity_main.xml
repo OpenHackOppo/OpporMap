@@ -11,8 +11,10 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        mapbox:mapbox_cameraTargetLat="-32.557013"
-        mapbox:mapbox_cameraTargetLng="-56.149056"
-        mapbox:mapbox_cameraZoom="5.526846"/>
+        mapbox:mapbox_cameraTargetLat="59.3413674"
+        mapbox:mapbox_cameraTargetLng="18.0618729"
+        mapbox:mapbox_cameraBearing="300"
+        mapbox:mapbox_cameraTilt="60"
+        mapbox:mapbox_cameraZoom="18"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
