@@ -2,7 +2,9 @@ package com.example.oppormap;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -89,9 +91,16 @@ public class MainActivity extends AppCompatActivity implements
 
                         MarkerViewManager markerViewManager = new MarkerViewManager(mapView, mapboxMap);
                         //TextView textView = new TextView(getApplicationContext());
+
                         View customView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.marker_view_bubble, null);
                         customView.setLayoutParams(new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-                        //textView.setText("Glad nu Malin??");
+                        customView.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                                browserIntent.setData(Uri.parse("http://www.google.com"));
+                                startActivity(browserIntent);
+                            }
+                        });
                         MarkerView markerView = new MarkerView(new LatLng(59.3413674,18.0618729), customView);
 
                         markerViewManager.addMarker(markerView);

@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:text="what's up"
         android:padding="6dip"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:autoLink="web"/>
 </LinearLayout>
