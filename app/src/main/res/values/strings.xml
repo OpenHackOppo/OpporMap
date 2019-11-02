@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">OpporMap</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoibnVjdWxhaXMiLCJhIjoiY2p6ZTh1NTZ1MDFxNzNpdXB1bXY4cW1iYSJ9.eoNpd9ot4QNJUndc0eqY4w</string>
+</resources>

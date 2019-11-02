@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "618446572776",
+    "firebase_url": "https://dushku-b2076.firebaseio.com",
+    "project_id": "dushku-b2076",
+    "storage_bucket": "dushku-b2076.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618446572776:android:dec3b4c705d739b9774d5d",
+        "android_client_info": {
+          "package_name": "com.company.oppo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618446572776-5ca2l90eqja3eu9leb9m8131cbqtrr8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6-UNoTBRb7R2ErxwwMGohoq0vlkrpCcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618446572776-5ca2l90eqja3eu9leb9m8131cbqtrr8o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
