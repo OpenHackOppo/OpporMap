@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 repositories {
     mavenCentral()
@@ -30,6 +37,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    // From gradle/wrapper/dependencies.gradle
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-building-v8:0.6.0'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'com.github.tony19:logback-android:2.0.0'
+    implementation group: 'com.konghq', name: 'unirest-java', version: '3.1.03'
+    implementation 'com.orhanobut:logger:2.2.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.0'
 }
