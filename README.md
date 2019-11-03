@@ -35,9 +35,6 @@
     8- MapBox
     9- Google maps AR
     10- Jobtech APIs
- ## Architecture 
-   (oppo-apis/OPPOR-architecture.png)
-  
 
 ## Versioning 
     We use the gitSCM for versioning.
