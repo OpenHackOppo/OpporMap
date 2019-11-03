@@ -12,7 +12,7 @@
     - MapBox APIs
 
 ## Install
-    1- Click the link to download the prototype  [Arbetsförmedlingen-AR](link here)
+    1- Click the link to download the prototype  [OPPOR](https://github.com/OpenHackOppo/OpporMap/blob/master/bin/app.apk)
     2- Go to downloaded file 
     3- Make sure that Install unknown apps option is enabled in your device settings
     4- Click the file and than install.
@@ -39,7 +39,7 @@
 ## Versioning 
     We use the gitSCM for versioning.
 ## Authors
-   PPOR Team - OpenHack 
+   OPPOR Team - OpenHack 
 
      * Anton Elhert
      * Malin Augustsson
