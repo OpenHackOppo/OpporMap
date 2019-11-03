@@ -1,8 +1,4 @@
-# OpporMap
-Hi. This is working now. Just need to add more functionality.
--Anton
-
-#  Arbetsförmedlingen in AR  by OPPOR-OPENHACK
+#  Arbetsförmedlingen in AR  by OPPOR
     Bring jobs closer to people. This app uses AR technology to display the jobs to in a real time and within accurate location.
 ## Challenge 
     Today we have people who maybe want to work but cant be bothered because it takes too much of their time or they need to go out of their way to look for it. Moving to where those users are removes that barrier. Since Jobseekers will not always come to us to look for work. We need to make it easier and more convenient for them to use our services. Placing our services in channels where the jobseekers are spending their free time will make it more appealing for them to look for jobs.
