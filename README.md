@@ -36,7 +36,7 @@
     9- Google maps AR
     10- Jobtech APIs
  ## Architecture 
-   (OPPOR-architecture.png)
+   (oppo-apis/OPPOR-architecture.png)
   
 
 ## Versioning 
