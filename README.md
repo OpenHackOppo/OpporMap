@@ -16,8 +16,6 @@
     2- Go to downloaded file 
     3- Make sure that Install unknown apps option is enabled in your device settings
     4- Click the file and than install.
- 
-## Deployment
 
 ### Technologies
     1- Android Studio
@@ -37,6 +35,9 @@
     8- MapBox
     9- Google maps AR
     10- Jobtech APIs
+ ## Architecture 
+   (OPPOR-architecture.png)
+  
 
 ## Versioning 
     We use the gitSCM for versioning.
