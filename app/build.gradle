@@ -62,4 +62,5 @@ dependencies {
     implementation 'com.mashape.unirest:unirest-android:1.0+'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.0'
+    implementation 'com.google.ar:core:1.13.0'
 }

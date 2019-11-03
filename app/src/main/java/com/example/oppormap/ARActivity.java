@@ -1,9 +1,9 @@
 package com.example.oppormap;
-package com.google.ar.core.examples.java.common.helpers;
+//package com.google.ar.core.examples.java.common.helpers;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.ar.core.examples.java.augmentedimage.rendering.AugmentedImageRenderer;
-import com.google.ar.core.examples.java.common.helpers.CameraPermissionHelper;
+//import com.google.ar.core.examples.java.augmentedimage.rendering.AugmentedImageRenderer;
+//import com.google.ar.core.examples.java.common.helpers.CameraPermissionHelper;
 
 import android.os.Bundle;
 

@@ -84,14 +84,14 @@ public class MainActivity extends AppCompatActivity implements
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        Button btn = (Button)findViewById(R.id.open_activity_button);
+        /*Button btn = (Button)findViewById(R.id.open_activity_button);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ARActivity.class));
             }
-        });
+        });*/
     }
 
     @Override

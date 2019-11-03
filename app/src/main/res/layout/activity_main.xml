@@ -17,7 +17,7 @@
         mapbox:mapbox_cameraTilt="60"
         mapbox:mapbox_cameraZoom="18"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/open_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,6 +25,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
-        android:text="AR Mode" />
+        android:text="AR Mode" />-->
 
 </RelativeLayout>
