@@ -13,8 +13,8 @@
 
 ## Install
     1- Click the link to download the prototype  OPPOR
-    ´´´(https://github.com/OpenHackOppo/OpporMap/blob/master/bin/app.apk)´´´
-    1- Click the link to download the prototype  OPPOR(https://github.com/OpenHackOppo/OpporMap/blob/master/bin/app.apk)
+    https://github.com/OpenHackOppo/OpporMap/blob/master/bin/app.apk
+    1- Click the link to download the prototype  OPPOR
     2- Go to downloaded file 
     3- Make sure that Install unknown apps option is enabled in your device settings
     4- Click the file and than install.
