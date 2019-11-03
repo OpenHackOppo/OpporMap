@@ -1,22 +1,25 @@
 package com.example.oppormap;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.oppormap.listener.LocationEngineListener;
+import com.example.oppormap.service.JobService;
+import com.example.oppormap.service.UserService;
+import com.example.oppormap.service.impl.DefaultUserService;
+import com.example.oppormap.service.impl.JobTechJobService;
+import com.google.gson.Gson;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -38,11 +41,7 @@ import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -54,17 +53,21 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
+    private final UserService userService = new DefaultUserService();
+    private final JobService jobService = new JobTechJobService();
+    private final Gson gson = new Gson();
+    private final LocationEngineCallback<LocationEngineResult> listener = new LocationEngineListener(this);
     private MapboxMap mapboxMap;
     private MapView mapView;
     private PermissionsManager permissionsManager;
     private LocationEngine locationEngine;
-    private LocationChangeListeningActivityLocationCallback callback =
-            new LocationChangeListeningActivityLocationCallback(this);
+
     private BuildingPlugin buildingPlugin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("oppordb", MODE_PRIVATE);
 
 // Mapbox access token is configured here. This needs to be called either in your application
 // object or in the same activity which contains the mapview.
@@ -164,9 +167,8 @@ public class MainActivity extends AppCompatActivity implements
         LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
                 .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
                 .setMaxWaitTime(DEFAULT_MAX_WAIT_TIME).build();
-
-        locationEngine.requestLocationUpdates(request, callback, getMainLooper());
-        locationEngine.getLastLocation(callback);
+        locationEngine.requestLocationUpdates(request, listener, getMainLooper());
+        locationEngine.getLastLocation(listener);
     }
 
     @Override
@@ -193,58 +195,16 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private static class LocationChangeListeningActivityLocationCallback
-            implements LocationEngineCallback<LocationEngineResult> {
+    public UserService getUserService() {
+        return userService;
+    }
 
-        private final WeakReference<MainActivity> activityWeakReference;
+    public JobService getJobService() {
+        return jobService;
+    }
 
-        LocationChangeListeningActivityLocationCallback(MainActivity activity) {
-            this.activityWeakReference = new WeakReference<>(activity);
-        }
-
-        /**
-         * The LocationEngineCallback interface's method which fires when the device's location has changed.
-         *
-         * @param result the LocationEngineResult object which has the last known location within it.
-         */
-        @Override
-        public void onSuccess(LocationEngineResult result) {
-            MainActivity activity = activityWeakReference.get();
-
-            if (activity != null) {
-                Location location = result.getLastLocation();
-
-                if (location == null) {
-                    return;
-                }
-
-/*// Create a Toast which displays the new location's coordinates
-                Toast.makeText(activity, String.format(activity.getString(R.string.new_location),
-                        String.valueOf(result.getLastLocation().getLatitude()),
-                        String.valueOf(result.getLastLocation().getLongitude())),
-                        Toast.LENGTH_SHORT).show();*/
-
-// Pass the new location to the Maps SDK's LocationComponent
-                if (activity.mapboxMap != null && result.getLastLocation() != null) {
-                    activity.mapboxMap.getLocationComponent().forceLocationUpdate(result.getLastLocation());
-                }
-            }
-        }
-
-        /**
-         * The LocationEngineCallback interface's method which fires when the device's location can't be captured
-         *
-         * @param exception the exception message
-         */
-        @Override
-        public void onFailure(@NonNull Exception exception) {
-            Log.d("LocationChangeActivity", exception.getLocalizedMessage());
-            Activity activity = activityWeakReference.get();
-            if (activity != null) {
-                Toast.makeText(activity, exception.getLocalizedMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
+    public Gson getGson() {
+        return gson;
     }
 
     @Override
@@ -282,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onDestroy();
 // Prevent leaks
         if (locationEngine != null) {
-            locationEngine.removeLocationUpdates(callback);
+            locationEngine.removeLocationUpdates(listener);
         }
         mapView.onDestroy();
     }
@@ -291,5 +251,12 @@ public class MainActivity extends AppCompatActivity implements
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return getApplication().getSharedPreferences("oppordb", MODE_PRIVATE);
+    }
+
+    private void setupFakeProfile() {
     }
 }
