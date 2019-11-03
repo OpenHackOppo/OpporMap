@@ -9,12 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oppormap.listener.LocationEngineListener;
+import com.example.oppormap.model.entity.Employer;
+import com.example.oppormap.model.entity.JobPosting;
+import com.example.oppormap.model.entity.User;
 import com.example.oppormap.service.JobService;
 import com.example.oppormap.service.UserService;
 import com.example.oppormap.service.impl.DefaultUserService;
@@ -42,6 +46,8 @@ import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Future;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -67,8 +73,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("oppordb", MODE_PRIVATE);
-
 // Mapbox access token is configured here. This needs to be called either in your application
 // object or in the same activity which contains the mapview.
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
@@ -93,32 +97,54 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-
+        setupFakeProfile();
+        JobPosting jobPosting = new JobPosting();
+        jobPosting.setTitle("Tester");
+        Employer employer = new Employer();
+        employer.setName("OpenHack");
+        employer.setLatitude(59.3413674);
+        employer.setLongitude(18.0618729);
+        jobPosting.setEmployer(employer);
         mapboxMap.setStyle(Style.MAPBOX_STREETS,
-                new Style.OnStyleLoaded() {
-                    @Override public void onStyleLoaded(@NonNull Style style) {
-                        enableLocationComponent(style);
-                        buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
-                        buildingPlugin.setMinZoomLevel(15f);
-                        buildingPlugin.setVisibility(true);
+                style -> {
+                    enableLocationComponent(style);
+                    buildingPlugin = new BuildingPlugin(mapView, mapboxMap, style);
+                    buildingPlugin.setMinZoomLevel(15f);
+                    buildingPlugin.setVisibility(true);
+                    MarkerViewManager markerViewManager = new MarkerViewManager(mapView, mapboxMap);
+                    publishPosting(markerViewManager, jobPosting);
+                    publishPostingsOnMap(markerViewManager);
 
-                        MarkerViewManager markerViewManager = new MarkerViewManager(mapView, mapboxMap);
-                        //TextView textView = new TextView(getApplicationContext());
-
-                        View customView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.marker_view_bubble, null);
-                        customView.setLayoutParams(new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-                        customView.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                                browserIntent.setData(Uri.parse("http://www.google.com"));
-                                startActivity(browserIntent);
-                            }
-                        });
-                        MarkerView markerView = new MarkerView(new LatLng(59.3413674,18.0618729), customView);
-
-                        markerViewManager.addMarker(markerView);
-                    }
                 });
+    }
+
+    public void publishPostingsOnMap(MarkerViewManager markerViewManager) {
+        User user = getCurrentUser();
+        Future<Set<JobPosting>> postings = jobService.findJobsNearbyAsync(user.getLatitude(), user.getLongitude(), 20);
+        try {
+            Set<JobPosting> posts = postings.get();
+            posts.forEach(p -> publishPosting(markerViewManager, p));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void publishPosting(MarkerViewManager markerViewManager, JobPosting posting) {
+        View customView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.marker_view_bubble, null);
+        customView.setLayoutParams(new FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+        TextView textView = customView.findViewById(R.id.mytext);
+        textView.setText(posting.getTitle() + " @ " + posting.getEmployer().getName());
+        customView.setOnClickListener(v -> {
+            if (posting.getUrl() != null) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse(posting.getUrl()));
+                startActivity(browserIntent);
+            }
+        });
+        MarkerView markerView = new MarkerView(new LatLng(posting.getEmployer().getLatitude(),posting.getEmployer().getLongitude()), customView);
+
+        markerViewManager.addMarker(markerView);
     }
 
     /**
@@ -253,10 +279,37 @@ public class MainActivity extends AppCompatActivity implements
         mapView.onLowMemory();
     }
 
+    public User getCurrentUser() {
+        SharedPreferences sharedPreferences = getSharedPreferences();
+        String user = sharedPreferences.getString("user", null);
+        if (user == null) {
+            setupFakeProfile();
+            return getCurrentUser();
+        }
+        User found = getGson().fromJson(user, User.class);
+        found.setLatitude(59.3293);
+        found.setLongitude(18.0686);
+        return found;
+    }
+
     public SharedPreferences getSharedPreferences() {
         return getApplication().getSharedPreferences("oppordb", MODE_PRIVATE);
     }
 
     private void setupFakeProfile() {
+        SharedPreferences sharedPreferences = getSharedPreferences();
+        String user = sharedPreferences.getString("user", null);
+        if (user != null) {
+            return;
+        }
+        User fake = new User();
+        fake.setName("Ruby Dumont");
+        fake.setLatitude(59.3293);
+        fake.setLongitude(18.0686);
+        fake.setAddress("Hamngatan 10");
+        //fake = userService.create(fake);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", getGson().toJson(fake));
+        editor.apply();
     }
 }

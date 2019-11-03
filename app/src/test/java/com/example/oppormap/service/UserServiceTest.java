@@ -24,14 +24,15 @@ public class UserServiceTest extends GenericUnitTest {
     public static void beforeClass() {
         user.setName("Erfan");
         user.setAddress("Kebnekaisevagen 5");
-        user.setLocation("59.3293,18.0686");
+        user.setLatitude(59.3293);
+        user.setLongitude(18.0686);
     }
 
     @Test
     public void a_create_new_user() {
         User saved = userService.create(user);
         assertEquals(saved.getName(), user.getName());
-        assertEquals(saved.getLocation(), user.getLocation());
+        assertEquals(saved.getLatitude(), user.getLatitude());
         assertEquals(saved.getAddress(), user.getAddress());
         assertNotNull(saved.getId());
         assertNotNull(saved.getRegistered());
@@ -43,7 +44,7 @@ public class UserServiceTest extends GenericUnitTest {
     public void b_get_user() {
         User fetched = userService.get(user.getId());
         assertEquals(fetched.getName(), user.getName());
-        assertEquals(fetched.getLocation(), user.getLocation());
+        assertEquals(fetched.getLatitude(), user.getLatitude());
         assertEquals(fetched.getAddress(), user.getAddress());
         assertEquals(fetched.getId(), user.getId());
         assertEquals(fetched.getRegistered(), user.getRegistered());
@@ -55,10 +56,10 @@ public class UserServiceTest extends GenericUnitTest {
     public void c_update_user() {
         user.setName("Tester");
         user.setAddress("Kebnekaisevagen 6");
-        user.setLocation("54.2,17.3");
+        user.setLatitude(54.22);
         User fetched = userService.update(user);
         assertEquals(fetched.getName(), user.getName());
-        assertEquals(fetched.getLocation(), user.getLocation());
+        assertEquals(fetched.getLatitude(), user.getLatitude());
         assertEquals(fetched.getAddress(), user.getAddress());
         assertEquals(fetched.getId(), user.getId());
         assertEquals(fetched.getRegistered(), user.getRegistered());

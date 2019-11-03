@@ -24,7 +24,8 @@ public class LocationEngineListener implements LocationEngineCallback<LocationEn
         if (user == null) {
             return;
         }
-        user.setLocation(String.valueOf(result.getLastLocation().getLatitude()) + result.getLastLocation().getLongitude());
+        user.setLatitude(result.getLastLocation().getLatitude());
+        user.setLongitude(result.getLastLocation().getLongitude());
         updateCachedUser(user);
     }
 

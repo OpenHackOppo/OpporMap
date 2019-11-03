@@ -15,7 +15,8 @@ public class User implements Serializable {
     private String id;
     private String name;
     private String address;
-    private String location;
+    private double latitude;
+    private double longitude;
     private Set<String> skills;
     private String registered;
     private String updated;

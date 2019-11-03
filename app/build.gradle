@@ -39,6 +39,9 @@ android {
 }
 repositories {
     mavenCentral()
+    maven{
+        url 'https://raw.github.com/zeeshanejaz/unirest-android/mvn-repo'
+    }
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -55,7 +58,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'com.github.tony19:logback-android:2.0.0'
-    implementation group: 'com.konghq', name: 'unirest-java', version: '3.1.03'
+    //implementation group: 'com.konghq', name: 'unirest-java', version: '3.1.03'
+    implementation 'com.mashape.unirest:unirest-android:1.0+'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.0'
 }
