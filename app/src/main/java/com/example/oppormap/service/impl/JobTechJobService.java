@@ -62,6 +62,7 @@ public class JobTechJobService implements JobService {
             JobPosting jobPosting = new JobPosting();
             jobPosting.setEmployer(employer);
             jobPosting.setDescription(posting.getJSONObject("description").optString("text"));
+            jobPosting.setTitle(posting.getJSONObject("occupation").optString("label"));
             jobPosting.setId(posting.optString("id"));
             jobPosting.setUrl(posting.optString("webpage_url"));
             return jobPosting;

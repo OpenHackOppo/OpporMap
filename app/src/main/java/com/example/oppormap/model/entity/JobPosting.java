@@ -14,6 +14,7 @@ public class JobPosting implements Serializable {
 
     private String id;
     private String url;
+    private String title;
     private String description;
     private Employer employer;
 }
